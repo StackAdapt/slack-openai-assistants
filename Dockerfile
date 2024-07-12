@@ -11,9 +11,11 @@ COPY . /app
 RUN pip install --no-cache-dir -r requirements.txt
 RUN pip install langchain
 
-# Copy the local_env file and set environment variables from it
-COPY local_env /app/local_env
-RUN export $(cat /app/local_env | xargs)
+# Copy the local_env.txt file
+COPY local_env.txt /app/local_env.txt
+
+# Set environment variables from local_env.txt
+RUN set -a && . /app/local_env.txt && set +a
 
 # Make port 80 available to the world outside this container
 EXPOSE 80
